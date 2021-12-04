@@ -1,7 +1,8 @@
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() {
-    day3::part_two().unwrap();
+    day4::part_two().unwrap();
 }
