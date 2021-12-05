@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 
 use std::{
-    fs::{self, File},
+    fs::File,
     io::{prelude::*, BufReader},
 };
 

@@ -2,7 +2,7 @@ use anyhow::Context;
 use std::ops::Add;
 
 use std::{
-    fs::{self, File},
+    fs::File,
     io::{prelude::*, BufReader},
 };
 

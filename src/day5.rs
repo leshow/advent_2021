@@ -1,6 +1,7 @@
 use std::{
     cmp::{self, Ordering},
     collections::HashMap,
+    str,
 };
 
 use anyhow::{Context, Result};
@@ -11,19 +12,26 @@ struct Pos {
     y: i64,
 }
 
+impl str::FromStr for Pos {
+    type Err = anyhow::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let mut iter = s.split(',');
+        let x = iter.next().context("failed to get x")?.parse()?;
+        let y = iter.next().context("failed to get y")?.parse()?;
+
+        Ok(Pos { x, y })
+    }
+}
+
 fn part_one() -> Result<usize> {
     let map = include_str!("../data/day5_1.txt")
         .lines()
         .flat_map(|line| {
             let mut iter = line.split(" -> ");
-            let mut fst = iter.next()?.split(',');
-            let mut snd = iter.next()?.split(',');
-            let x = fst.next()?.parse().unwrap();
-            let y = fst.next()?.parse().unwrap();
-            let xx = snd.next()?.parse().unwrap();
-            let yy = snd.next()?.parse().unwrap();
-
-            Some((Pos { x, y }, Pos { x: xx, y: yy }))
+            let fst = iter.next()?.parse::<Pos>().unwrap();
+            let snd = iter.next()?.parse::<Pos>().unwrap();
+            Some((fst, snd))
         })
         .filter(|(a, b)| a.x == b.x || a.y == b.y)
         .fold(HashMap::new(), |mut map, (a, b)| {
@@ -43,14 +51,9 @@ fn part_two() -> Result<usize> {
         .lines()
         .flat_map(|line| {
             let mut iter = line.split(" -> ");
-            let mut fst = iter.next()?.split(',');
-            let mut snd = iter.next()?.split(',');
-            let x = fst.next()?.parse().unwrap();
-            let y = fst.next()?.parse().unwrap();
-            let xx = snd.next()?.parse().unwrap();
-            let yy = snd.next()?.parse().unwrap();
-
-            Some((Pos { x, y }, Pos { x: xx, y: yy }))
+            let fst = iter.next()?.parse::<Pos>().unwrap();
+            let snd = iter.next()?.parse::<Pos>().unwrap();
+            Some((fst, snd))
         })
         .fold(HashMap::new(), |mut map, (a, b)| {
             for (x, y) in build_range(a.x, b.x).zip(build_range(a.y, b.y)) {

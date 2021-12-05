@@ -16,6 +16,7 @@ pub fn part_one() -> Result<()> {
 }
 
 struct Board(Vec<Vec<Option<u32>>>);
+
 impl Board {
     // terribly unoptimized, but it works
     fn solve(&mut self, pick: u32) -> Option<u32> {
