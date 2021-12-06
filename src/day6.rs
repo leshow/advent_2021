@@ -1,5 +1,3 @@
-use anyhow::{Context, Result};
-
 fn input(s: &'static str) -> [u64; 9] {
     let mut pop = [0; 9];
     // not sure why I can't remove the trailing \n but whatever
