@@ -7,14 +7,11 @@ fn part_one(lines: Vec<Vec<u32>>) -> u32 {
     for r in 0..lines.len() {
         for c in 0..lines[0].len() {
             let cur = lines[r][c];
-            if MOVES
-                .into_iter()
-                .all(|(dr, dc)| match get(&lines, r, c, dr, dc) {
-                    Some((n, _, _)) if cur < n => true,
-                    Some(_) => false,
-                    None => true,
-                })
-            {
+            if MOVES.into_iter().all(|(dr, dc)| {
+                get(&lines, r, c, dr, dc)
+                    .map(|(n, _, _)| cur < n)
+                    .unwrap_or(true)
+            }) {
                 sum += cur + 1;
             }
         }
@@ -22,19 +19,17 @@ fn part_one(lines: Vec<Vec<u32>>) -> u32 {
     sum
 }
 
+// copypasta from part one but returns the low points
 fn low_points(lines: &[Vec<u32>]) -> Vec<(usize, usize)> {
     let mut ret = Vec::new();
     for r in 0..lines.len() {
         for c in 0..lines[0].len() {
             let cur = lines[r][c];
-            if [(0, -1), (-1, 0), (0, 1), (1, 0)]
-                .into_iter()
-                .all(|(dr, dc)| match get(&lines, r, c, dr, dc) {
-                    Some((n, _, _)) if cur < n => true,
-                    Some(_) => false,
-                    None => true,
-                })
-            {
+            if MOVES.into_iter().all(|(dr, dc)| {
+                get(lines, r, c, dr, dc)
+                    .map(|(n, _, _)| cur < n)
+                    .unwrap_or(true)
+            }) {
                 ret.push((r, c));
             }
         }
@@ -63,7 +58,7 @@ fn bfs(r: usize, c: usize, visited: &mut HashSet<(usize, usize)>, lines: &[Vec<u
         ret += 1;
         for (dr, dc) in MOVES {
             if let Some((n, rr, cc)) = get(lines, r, c, dr, dc) {
-                if !visited.contains(&(rr, cc)) && cur < lines[rr][cc] && lines[rr][cc] < 9 {
+                if !visited.contains(&(rr, cc)) && cur < n && n < 9 {
                     visited.insert((rr, cc));
                     q.push_back((rr, cc));
                 }
