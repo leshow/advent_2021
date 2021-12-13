@@ -1,7 +1,5 @@
 use std::{char, collections::HashMap};
 
-use anyhow::Context;
-
 fn points() -> HashMap<char, u64> {
     let mut map = HashMap::new();
     map.insert(')', 3);
