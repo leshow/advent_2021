@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -10,5 +11,5 @@ mod day8;
 mod day9;
 
 fn main() {
-    println!("hello world");
+    println!("should have been a lib");
 }
