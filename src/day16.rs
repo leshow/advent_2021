@@ -80,6 +80,7 @@ pub fn part_one(d: &mut Decoder) -> Result<u64> {
         },
     }
 }
+
 fn read_num(d: &mut Decoder) -> Result<Vec<u64>> {
     let mut num = 0;
     loop {
